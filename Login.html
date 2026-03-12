@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OyuMind</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep:    #1a1035;
+      --bg-mid:     #2d1f5e;
+      --card-bg:    rgba(120, 90, 180, 0.35);
+      --btn-bg:     rgba(200, 180, 230, 0.25);
+      --btn-hover:  rgba(200, 180, 230, 0.42);
+      --text-dark:  #1a1035;
+      --text-light: #e8dff8;
+      --text-muted: #b8a8d8;
+      --accent:     #e8a0b0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at 30% 20%, #3a1f7a 0%, #1a1035 55%, #0d0820 100%);
+      font-family: 'Nunito', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Ambient orbs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      width: 340px; height: 340px;
+      background: radial-gradient(circle, rgba(120,60,200,0.35), transparent 70%);
+      top: -60px; left: -60px;
+    }
+    body::after {
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(230,120,150,0.18), transparent 70%);
+      bottom: -40px; right: -40px;
+    }
+
+    /* Phone shell */
+    .phone {
+      position: relative;
+      z-index: 1;
+      width: 340px;
+      min-height: 680px;
+      background: linear-gradient(160deg, #3b2472 0%, #2a1a5e 60%, #1f1448 100%);
+      border-radius: 42px;
+      padding: 52px 28px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow:
+        0 40px 80px rgba(10,5,30,0.7),
+        0 0 0 1px rgba(255,255,255,0.07) inset,
+        0 2px 0 rgba(255,255,255,0.12) inset;
+      animation: phoneIn 0.8s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes phoneIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Notch */
+    .phone::before {
+      content: '';
+      position: absolute;
+      top: 16px; left: 50%; transform: translateX(-50%);
+      width: 90px; height: 6px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 99px;
+    }
+
+    /* Logo */
+    .logo-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 48px;
+      animation: fadeUp 0.7s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .logo-icon {
+      width: 62px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+    .logo-text span { color: var(--accent); }
+
+    /* Card */
+    .card {
+      width: 100%;
+      background: linear-gradient(145deg, rgba(160,120,220,0.28), rgba(100,70,170,0.18));
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 28px;
+      padding: 32px 24px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(10,5,30,0.3);
+      animation: fadeUp 0.7s 0.35s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Buttons */
+    .btn {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 18px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 100%);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .btn:hover  { transform: translateY(-2px); }
+    .btn:active { transform: translateY(1px); }
+
+    .btn-login {
+      background: rgba(210, 195, 240, 0.28);
+      color: #e8dff8;
+      box-shadow: 0 4px 20px rgba(80,40,160,0.25);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-login:hover {
+      background: rgba(210, 195, 240, 0.4);
+      box-shadow: 0 8px 28px rgba(80,40,160,0.4);
+    }
+
+    .btn-signup {
+      background: rgba(210, 195, 240, 0.18);
+      color: #e8dff8;
+      box-shadow: 0 4px 20px rgba(80,40,160,0.15);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-signup:hover {
+      background: rgba(210, 195, 240,0.3);
+      box-shadow: 0 8px 28px rgba(80,40,160,0.3);
+    }
+
+    /* Tagline */
+    .tagline {
+      margin-top: auto;
+      padding-top: 36px;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 2.5px;
+      text-transform: lowercase;
+      animation: fadeUp 0.7s 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .tagline span { color: var(--accent); margin: 0 4px; font-size: 10px; }
+  </style>
+</head>
+<body>
+
+  <div class="phone">
+
+    <div class="logo-area">
+      <!-- Lotus SVG -->
+      <div class="logo-icon">
+        <svg viewBox="0 0 64 56" fill="none" xmlns="http://www.w3.org/2000/svg" width="62">
+          <!-- petals -->
+          <ellipse cx="32" cy="36" rx="8" ry="18" fill="#e8a0b0" opacity="0.9"/>
+          <ellipse cx="32" cy="36" rx="8" ry="18" fill="url(#pg)" opacity="0.9"/>
+          <ellipse cx="18" cy="38" rx="7" ry="16" fill="#c47a8a" opacity="0.75" transform="rotate(-22 18 38)"/>
+          <ellipse cx="46" cy="38" rx="7" ry="16" fill="#c47a8a" opacity="0.75" transform="rotate(22 46 38)"/>
+          <ellipse cx="8"  cy="42" rx="6" ry="13" fill="#a05070" opacity="0.5"  transform="rotate(-40 8 42)"/>
+          <ellipse cx="56" cy="42" rx="6" ry="13" fill="#a05070" opacity="0.5"  transform="rotate(40 56 42)"/>
+          <!-- leaves -->
+          <ellipse cx="20" cy="50" rx="14" ry="5" fill="#5a8a6a" opacity="0.7" transform="rotate(-15 20 50)"/>
+          <ellipse cx="44" cy="50" rx="14" ry="5" fill="#5a8a6a" opacity="0.7" transform="rotate(15 44 50)"/>
+          <defs>
+            <linearGradient id="pg" x1="32" y1="18" x2="32" y2="54" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#f0b8c8"/>
+              <stop offset="100%" stop-color="#c06080"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="logo-text">Oyu<span>Mind</span></div>
+    </div>
+
+    <div class="card">
+      <button class="btn btn-login">Login</button>
+      <button class="btn btn-signup">Sign up</button>
+    </div>
+
+    <p class="tagline">
+      focus <span>•</span> balance <span>•</span> bloom
+    </p>
+
+  </div>
+
+</body>
+</html>
