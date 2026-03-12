@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OyuMind – Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep:   #1a1035;
+      --bg-mid:    #2d1f5e;
+      --card-bg:   rgba(120, 90, 180, 0.30);
+      --input-bg:  rgba(160, 130, 210, 0.18);
+      --input-focus: rgba(160, 130, 210, 0.35);
+      --btn-purple: #7c4dbd;
+      --btn-hover:  #9060d0;
+      --text-light: #e8dff8;
+      --text-muted: #a090c0;
+      --text-label: #d0c0f0;
+      --accent:     #e8a0b0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at 30% 10%, #3a1f7a 0%, #1a1035 50%, #0d0820 100%);
+      font-family: 'Nunito', sans-serif;
+      overflow: hidden;
+    }
+
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(110,50,200,0.3), transparent 70%);
+      top: -60px; left: -60px;
+    }
+    body::after {
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(230,120,150,0.15), transparent 70%);
+      bottom: -40px; right: -40px;
+    }
+
+    .phone {
+      position: relative;
+      z-index: 1;
+      width: 340px;
+      min-height: 700px;
+      background: linear-gradient(160deg, #3b2472 0%, #2a1a5e 60%, #1f1448 100%);
+      border-radius: 42px;
+      padding: 48px 28px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow:
+        0 40px 80px rgba(10,5,30,0.7),
+        0 0 0 1px rgba(255,255,255,0.07) inset,
+        0 2px 0 rgba(255,255,255,0.12) inset;
+      animation: phoneIn 0.8s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .phone::before {
+      content: '';
+      position: absolute;
+      top: 16px; left: 50%; transform: translateX(-50%);
+      width: 90px; height: 6px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 99px;
+    }
+
+    @keyframes phoneIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.7s 0.15s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .logo-text {
+      font-weight: 800;
+      font-size: 30px;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+    .logo-text span { color: var(--accent); }
+
+    .subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-muted);
+      font-style: italic;
+      letter-spacing: 0.3px;
+    }
+
+    /* Card */
+    .card {
+      width: 100%;
+      background: linear-gradient(145deg, rgba(150,110,210,0.28), rgba(90,60,160,0.18));
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 26px;
+      padding: 28px 22px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 36px rgba(10,5,30,0.35);
+      animation: fadeUp 0.7s 0.28s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Field group */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-label);
+      letter-spacing: 0.3px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px 16px;
+      background: var(--input-bg);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      color: var(--text-light);
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      outline: none;
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input::placeholder { color: rgba(200,180,240,0.4); }
+
+    input:focus {
+      background: var(--input-focus);
+      border-color: rgba(180,140,240,0.4);
+      box-shadow: 0 0 0 3px rgba(140,90,220,0.15);
+    }
+
+    /* Create Account button */
+    .btn-create {
+      width: 100%;
+      margin-top: 8px;
+      padding: 18px;
+      background: linear-gradient(135deg, #7c4dbd, #9a5fd0);
+      border: none;
+      border-radius: 16px;
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 24px rgba(100,50,200,0.45);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.2s;
+    }
+
+    .btn-create::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.14) 0%, transparent 60%);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .btn-create:hover {
+      background: linear-gradient(135deg, #9060d8, #b070e8);
+      box-shadow: 0 10px 32px rgba(120,60,220,0.55);
+      transform: translateY(-2px);
+    }
+    .btn-create:active { transform: translateY(1px); }
+
+    /* Sign in link */
+    .signin-link {
+      margin-top: 22px;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      animation: fadeUp 0.7s 0.42s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .signin-link a {
+      color: #c090f0;
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    .signin-link a:hover { color: #e0b8ff; }
+
+    /* Tagline */
+    .tagline {
+      margin-top: auto;
+      padding-top: 24px;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 2.5px;
+      text-transform: lowercase;
+      animation: fadeUp 0.7s 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .tagline span { color: var(--accent); margin: 0 3px; font-size: 9px; }
+  </style>
+</head>
+<body>
+
+  <div class="phone">
+
+    <!-- Logo -->
+    <div class="header">
+      <svg viewBox="0 0 64 56" fill="none" xmlns="http://www.w3.org/2000/svg" width="58" style="margin-bottom:4px">
+        <ellipse cx="32" cy="36" rx="8" ry="18" fill="url(#pg)" opacity="0.95"/>
+        <ellipse cx="18" cy="38" rx="7" ry="16" fill="#c47a8a" opacity="0.75" transform="rotate(-22 18 38)"/>
+        <ellipse cx="46" cy="38" rx="7" ry="16" fill="#c47a8a" opacity="0.75" transform="rotate(22 46 38)"/>
+        <ellipse cx="8"  cy="42" rx="6" ry="13" fill="#a05070" opacity="0.5"  transform="rotate(-40 8 42)"/>
+        <ellipse cx="56" cy="42" rx="6" ry="13" fill="#a05070" opacity="0.5"  transform="rotate(40 56 42)"/>
+        <ellipse cx="20" cy="50" rx="14" ry="5" fill="#5a8a6a" opacity="0.75" transform="rotate(-15 20 50)"/>
+        <ellipse cx="44" cy="50" rx="14" ry="5" fill="#5a8a6a" opacity="0.75" transform="rotate(15 44 50)"/>
+        <defs>
+          <linearGradient id="pg" x1="32" y1="18" x2="32" y2="54" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#f0b8c8"/>
+            <stop offset="100%" stop-color="#c06080"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="logo-text">Oyu<span>Mind</span></div>
+      <div class="subtitle">Study smarter, feel better</div>
+    </div>
+
+    <!-- Form card -->
+    <div class="card">
+      <div class="field">
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" placeholder="Enter your first name" autocomplete="given-name" />
+      </div>
+
+      <div class="field">
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" placeholder="Enter your last name" autocomplete="family-name" />
+      </div>
+
+      <div class="field" style="margin-bottom:6px">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+
+      <button class="btn-create">Create Account</button>
+    </div>
+
+    <p class="signin-link">Already have an account? <a href="#">Sign in</a></p>
+
+    <p class="tagline">focus <span>•</span> balance <span>•</span> bloom</p>
+
+  </div>
+
+</body>
+</html>
