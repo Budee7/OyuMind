@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OyuMind – Sign Up</title><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <title>OyuMind – Login</title><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
   <style>
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -91,11 +91,6 @@
     }
     .tagline span { color: rgba(200,180,230,0.5); margin: 0 4px; }
 
-    .signin-link {
-      margin-top: 20px; font-size: 13px; color: var(--text-muted); font-weight: 500;
-    }
-    .signin-link a { color: #a070e0; font-weight: 700; text-decoration: none; }
-    .signin-link a:hover { color: #c090f8; }
   </style>
 </head>
 <body>
@@ -104,15 +99,12 @@
   <div class="app-name">OyuMind</div>
   <div class="app-sub">Study smarter, feel better</div>
   <div class="card">
-    <label>First Name</label>
-    <input type="text" placeholder="Enter your first name" autocomplete="given-name" />
-    <label>Last Name</label>
-    <input type="text" placeholder="Enter your last name" autocomplete="family-name" />
     <label>Email Address</label>
-    <input type="email" placeholder="you@example.com" autocomplete="email" style="margin-bottom:4px;" />
-    <button class="btn" onclick="location.href='oyumind-verify.html'">Create Account</button>
+    <input type="email" placeholder="Enter your email" autocomplete="email" />
+    <label>Password</label>
+    <input type="password" placeholder="Enter your password" autocomplete="current-password" style="margin-bottom:4px;" />
+    <button class="btn" onclick="location.href='oyumind-verify.html'">Log in</button>
   </div>
-  <p class="signin-link">Already have an account? <a href="oyumind-login.html">Sign in</a></p>
   <p class="tagline">focus <span>•</span> balance <span>•</span> bloom</p>
 </div>
 </body>
