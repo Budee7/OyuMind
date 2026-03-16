@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OyuMind – Subject Detail</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #e8e0f0; --card-white: #ffffff; --pill-bg: #e0d4f0;
+      --pill-hover: #d0c0e8; --purple: #7c4dbd; --purple-mid: #9b6dd4;
+      --text-dark: #2a1a4e; --text-mid: #6040a0; --text-muted: #9880b8; --accent: #e8a0b0;
+    }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(160deg, #3b2472 0%, #1f1448 100%);
+      font-family: 'Nunito', sans-serif;
+      display: flex; align-items: center; justify-content: center; padding: 24px 16px;
+    }
+    .phone {
+      width: 340px; min-height: 680px; background: var(--bg);
+      border-radius: 40px; overflow: hidden;
+      box-shadow: 0 40px 80px rgba(10,5,30,0.65), 0 0 0 1px rgba(255,255,255,0.1) inset;
+      display: flex; flex-direction: column; padding-bottom: 24px;
+      max-height: 760px; overflow-y: auto;
+    }
+    .phone::-webkit-scrollbar { display: none; }
+
+    .topbar { display: flex; align-items: center; gap: 10px; padding: 28px 22px 6px; flex-shrink: 0; }
+    .logo-text { font-weight: 800; font-size: 22px; color: var(--text-dark); }
+    .logo-text span { color: var(--purple); }
+    .tagline-top { text-align: center; font-size: 10px; letter-spacing: 2px; color: var(--text-muted); padding-bottom: 10px; flex-shrink: 0; }
+    .tagline-top span { color: var(--accent); margin: 0 2px; }
+
+    /* ── Main card ── */
+    .card {
+      background: var(--card-white); border-radius: 22px;
+      padding: 16px 14px 14px; margin: 0 14px 12px;
+      box-shadow: 0 2px 12px rgba(100,60,180,0.08);
+      display: flex; flex-direction: column;
+    }
+    .card-title { font-weight: 800; font-size: 16px; color: var(--text-dark); text-align: center; margin-bottom: 10px; }
+    .back-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .back-btn {
+      width: 32px; height: 32px; background: var(--pill-bg); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 15px; color: var(--text-dark); border: none;
+      transition: background 0.18s; flex-shrink: 0;
+    }
+    .back-btn:hover { background: var(--pill-hover); }
+    .subject-name { font-weight: 800; font-size: 16px; color: var(--text-dark); }
+
+    /* ── Task list ── */
+    .task-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .task-item {
+      background: var(--pill-bg); border-radius: 16px;
+      padding: 12px 12px 10px;
+    }
+    .task-top { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .task-name {
+      flex: 1; font-size: 13px; font-weight: 700; color: var(--text-dark);
+      background: transparent; border: none; outline: none;
+      font-family: 'Nunito', sans-serif; border-bottom: 1.5px solid rgba(124,77,189,0.2);
+      padding-bottom: 2px;
+    }
+    .task-name::placeholder { color: var(--text-muted); font-weight: 600; }
+    .task-delete {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(180,100,120,0.18); border: none; cursor: pointer;
+      font-size: 11px; color: #c06080; display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s; flex-shrink: 0;
+    }
+    .task-delete:hover { background: rgba(180,100,120,0.38); }
+
+    /* ══════════════════════════════
+       Apple-style Drum / Scroll Picker
+    ══════════════════════════════ */
+    .drum-timer {
+      display: flex; align-items: center; justify-content: center; gap: 0;
+      background: rgba(255,255,255,0.65);
+      border-radius: 14px; padding: 0 8px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 1px 6px rgba(100,60,180,0.1) inset;
+    }
+
+    .drum-col { display: flex; flex-direction: column; align-items: center; width: 52px; }
+    .drum-label {
+      font-size: 9px; color: var(--text-muted); font-weight: 800;
+      letter-spacing: 1.5px; padding: 5px 0 2px; text-transform: uppercase;
+    }
+
+    .drum-scroll {
+      height: 110px; overflow: hidden; position: relative; width: 52px;
+      cursor: ns-resize; user-select: none; touch-action: none;
+    }
+
+    /* top & bottom fade */
+    .drum-scroll::before,
+    .drum-scroll::after {
+      content: ''; position: absolute; left: 0; right: 0; height: 36px; z-index: 2; pointer-events: none;
+    }
+    .drum-scroll::before { top: 0;    background: linear-gradient(to bottom, rgba(243,240,250,1) 0%, rgba(243,240,250,0) 100%); }
+    .drum-scroll::after  { bottom: 0; background: linear-gradient(to top,    rgba(243,240,250,1) 0%, rgba(243,240,250,0) 100%); }
+
+    /* selection band */
+    .drum-highlight {
+      position: absolute; left: 4px; right: 4px;
+      top: 50%; transform: translateY(-50%);
+      height: 34px;
+      background: rgba(124,77,189,0.1);
+      border-radius: 8px; pointer-events: none; z-index: 1;
+      border-top: 1.5px solid rgba(124,77,189,0.3);
+      border-bottom: 1.5px solid rgba(124,77,189,0.3);
+    }
+
+    .drum-inner {
+      display: flex; flex-direction: column; align-items: center;
+      will-change: transform;
+      transition: transform 0.08s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+
+    .drum-item {
+      height: 34px; line-height: 34px;
+      font-size: 20px; font-weight: 800; color: var(--text-dark);
+      text-align: center; width: 52px; flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .drum-item.dim { color: rgba(152,128,184,0.4); font-size: 15px; font-weight: 600; }
+    .drum-item.near { color: rgba(96,64,160,0.65); font-size: 17px; }
+
+    .drum-sep {
+      font-size: 22px; font-weight: 800; color: var(--purple);
+      padding: 0 0px; line-height: 110px; flex-shrink: 0;
+      margin-top: 16px;
+    }
+
+    /* controls */
+    .timer-controls { display: flex; gap: 6px; margin-top: 8px; }
+    .ctrl-btn {
+      flex: 1; padding: 8px 0; border: none; border-radius: 10px;
+      font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 12px;
+      cursor: pointer; transition: transform 0.15s, opacity 0.15s;
+    }
+    .ctrl-btn:active { transform: scale(0.96); }
+    .ctrl-btn.start   { background: linear-gradient(135deg,#7c4dbd,#9a5fd0); color:#fff; box-shadow:0 3px 10px rgba(100,50,200,0.3); }
+    .ctrl-btn.pause   { background: linear-gradient(135deg,#b05090,#d06090); color:#fff; box-shadow:0 3px 10px rgba(160,50,120,0.3); }
+    .ctrl-btn.reset   { background: rgba(200,185,230,0.5); color: var(--text-mid); }
+    .ctrl-btn.reset:hover { background: rgba(180,160,220,0.7); }
+
+    .time-elapsed {
+      font-size: 10px; color: var(--text-muted); text-align: center;
+      margin-top: 5px; font-weight: 700; letter-spacing: 0.3px;
+    }
+
+    /* add task */
+    .add-task-btn {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      background: transparent; border-radius: 14px; height: 40px;
+      cursor: pointer; color: var(--text-mid); font-size: 13px; font-weight: 700;
+      border: 2px dashed rgba(124,77,189,0.3); margin-top: 10px;
+      transition: background 0.18s, border-color 0.18s;
+    }
+    .add-task-btn:hover { background: var(--pill-bg); border-color: rgba(124,77,189,0.5); }
+
+    /* mark done */
+    .mark-done-btn {
+      margin: 0 14px 0; padding: 14px;
+      background: linear-gradient(135deg, #7c4dbd, #9a5fd0);
+      border: none; border-radius: 16px; color: #fff;
+      font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 15px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 6px 20px rgba(100,50,200,0.4); transition: transform 0.18s, box-shadow 0.18s;
+      flex-shrink: 0;
+    }
+    .mark-done-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(100,50,200,0.5); }
+
+    .ask-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 14px; cursor: pointer; flex-shrink: 0; }
+    .ask-circle {
+      width: 44px; height: 44px; background: var(--purple-mid); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+      box-shadow: 0 4px 16px rgba(120,60,200,0.35); transition: transform 0.18s;
+    }
+    .ask-circle:hover { transform: scale(1.08); }
+    .ask-label { font-size: 12px; font-weight: 700; color: var(--text-mid); }
+  </style>
+</head>
+<body>
+<div class="phone">
+
+  <div class="topbar">
+    <svg viewBox="0 0 64 56" fill="none" width="36">
+      <ellipse cx="32" cy="36" rx="8" ry="18" fill="url(#pg)" opacity="0.95"/>
+      <ellipse cx="18" cy="38" rx="7" ry="16" fill="#c47a8a" opacity="0.7" transform="rotate(-22 18 38)"/>
+      <ellipse cx="46" cy="38" rx="7" ry="16" fill="#c47a8a" opacity="0.7" transform="rotate(22 46 38)"/>
+      <ellipse cx="20" cy="50" rx="14" ry="5" fill="#5a8a6a" opacity="0.75" transform="rotate(-15 20 50)"/>
+      <ellipse cx="44" cy="50" rx="14" ry="5" fill="#5a8a6a" opacity="0.75" transform="rotate(15 44 50)"/>
+      <defs><linearGradient id="pg" x1="32" y1="18" x2="32" y2="54" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#f0b8c8"/><stop offset="100%" stop-color="#c06080"/>
+      </linearGradient></defs>
+    </svg>
+    <div class="logo-text">Oyu<span>Mind</span></div>
+  </div>
+  <div class="tagline-top">focus <span>•</span> balance <span>•</span> bloom</div>
+
+  <div class="card">
+    <div class="card-title">Today's Tasks</div>
+    <div class="back-row">
+      <button class="back-btn" onclick="location.href='oyumind-subjects.html'">←</button>
+      <div class="subject-name" id="subject-name">Subject</div>
+    </div>
+    <div class="task-list" id="task-list"></div>
+    <div class="add-task-btn" onclick="addTask()">
+      <span style="font-size:16px;">＋</span> Add Task
+    </div>
+  </div>
+
+  <button class="mark-done-btn" onclick="markDone()">Mark as done ✓</button>
+
+  <div class="ask-btn">
+    <div class="ask-circle">💡</div>
+    <div class="ask-label">Ask OyuMind...</div>
+  </div>
+</div>
+
+<script>
+/* ── URL param ── */
+const params = new URLSearchParams(window.location.search);
+const subject = params.get('subject') || 'Subject';
+document.getElementById('subject-name').textContent = subject;
+document.title = `OyuMind – ${subject}`;
+
+const ITEM_H = 34; // must match CSS .drum-item height
+let taskIdCounter = 0;
+const tasks = {};
+
+/* ═══════════════════════════════════════
+   ADD TASK
+═══════════════════════════════════════ */
+function addTask() {
+  const id = ++taskIdCounter;
+  tasks[id] = { interval: null, elapsed: 0, running: false, h: 0, m: 0, s: 0, mode: null };
+
+  const list = document.getElementById('task-list');
+  const el = document.createElement('div');
+  el.className = 'task-item';
+  el.id = `task-${id}`;
+  el.innerHTML = `
+    <div class="task-top">
+      <input class="task-name" placeholder="Task name…" />
+      <button class="task-delete" onclick="deleteTask(${id})">✕</button>
+    </div>
+    <div class="drum-timer" id="drum-${id}">
+      ${drumColHTML(id,'h',0,23,'HRS')}
+      <div class="drum-sep">:</div>
+      ${drumColHTML(id,'m',0,59,'MIN')}
+      <div class="drum-sep">:</div>
+      ${drumColHTML(id,'s',0,59,'SEC')}
+    </div>
+    <div class="timer-controls">
+      <button class="ctrl-btn start" id="startbtn-${id}" onclick="toggleTimer(${id})">▶ Start</button>
+      <button class="ctrl-btn reset" onclick="resetTimer(${id})">↺ Reset</button>
+    </div>
+    <div class="time-elapsed" id="elapsed-${id}">Set a time above, or tap Start to count up</div>
+  `;
+  list.appendChild(el);
+  initDrum(id);
+}
+
+/* ── Build drum column HTML ── */
+function drumColHTML(id, unit, min, max, label) {
+  let items = '';
+  // add padding items top & bottom so first/last are centerable
+  for (let i = 0; i < 2; i++) items += `<div class="drum-item dim" data-val="-1" style="opacity:0"> </div>`;
+  for (let i = min; i <= max; i++) items += `<div class="drum-item" data-val="${i}">${String(i).padStart(2,'0')}</div>`;
+  for (let i = 0; i < 2; i++) items += `<div class="drum-item dim" data-val="-1" style="opacity:0"> </div>`;
+  return `
+    <div class="drum-col">
+      <div class="drum-label">${label}</div>
+      <div class="drum-scroll" id="scroll-${id}-${unit}">
+        <div class="drum-highlight"></div>
+        <div class="drum-inner" id="inner-${id}-${unit}">${items}</div>
+      </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════
+   DRUM INTERACTION
+═══════════════════════════════════════ */
+function initDrum(id) {
+  ['h','m','s'].forEach(unit => {
+    const scroll = document.getElementById(`scroll-${id}-${unit}`);
+    let startY = 0, startVal = 0, dragging = false, velocity = 0, lastY = 0, lastTime = 0;
+
+    const getMax = () => unit === 'h' ? 23 : 59;
+    const getVal = () => tasks[id][unit];
+    const setVal = v => {
+      v = Math.max(0, Math.min(getMax(), Math.round(v)));
+      tasks[id][unit] = v;
+      updateDrumPos(id, unit, true);
+    };
+
+    scroll.addEventListener('mousedown', e => {
+      startY = e.clientY; startVal = getVal();
+      lastY = e.clientY; lastTime = Date.now();
+      velocity = 0; dragging = true; e.preventDefault();
+    });
+    scroll.addEventListener('touchstart', e => {
+      startY = e.touches[0].clientY; startVal = getVal();
+      lastY = startY; lastTime = Date.now();
+      velocity = 0; dragging = true;
+    }, {passive: true});
+
+    window.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      const now = Date.now();
+      velocity = (lastY - e.clientY) / (now - lastTime + 1);
+      lastY = e.clientY; lastTime = now;
+      const delta = (startY - e.clientY) / ITEM_H;
+      setVal(startVal + delta);
+    });
+    window.addEventListener('touchmove', e => {
+      if (!dragging) return;
+      const now = Date.now();
+      velocity = (lastY - e.touches[0].clientY) / (now - lastTime + 1);
+      lastY = e.touches[0].clientY; lastTime = now;
+      const delta = (startY - lastY) / ITEM_H;
+      setVal(startVal + delta);
+    }, {passive: true});
+
+    const onEnd = () => {
+      if (!dragging) return;
+      dragging = false;
+      // momentum flick
+      if (Math.abs(velocity) > 0.3) {
+        let v = getVal() + velocity * 6;
+        setVal(v);
+      }
+    };
+    window.addEventListener('mouseup', onEnd);
+    window.addEventListener('touchend', onEnd);
+
+    scroll.addEventListener('wheel', e => {
+      e.preventDefault();
+      setVal(getVal() + Math.sign(e.deltaY));
+    }, { passive: false });
+
+    updateDrumPos(id, unit, false);
+  });
+}
+
+function updateDrumPos(id, unit, animate) {
+  const val   = tasks[id][unit];
+  const inner = document.getElementById(`inner-${id}-${unit}`);
+  if (!inner) return;
+
+  // 2 padding items offset: val+2 (data items start at index 2)
+  const offset = (val + 2) * ITEM_H - (110 / 2 - ITEM_H / 2);
+  inner.style.transition = animate ? 'transform 0.12s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none';
+  inner.style.transform = `translateY(${-offset}px)`;
+
+  inner.querySelectorAll('.drum-item').forEach(el => {
+    const v = parseInt(el.dataset.val);
+    if (v < 0) return;
+    const diff = Math.abs(v - val);
+    el.classList.remove('dim','near');
+    if (diff === 0) { /* selected: big */ }
+    else if (diff === 1) el.classList.add('near');
+    else el.classList.add('dim');
+  });
+}
+
+/* ═══════════════════════════════════════
+   TIMER LOGIC
+═══════════════════════════════════════ */
+function toggleTimer(id) {
+  const t = tasks[id];
+  const btn = document.getElementById(`startbtn-${id}`);
+
+  if (t.running) {
+    clearInterval(t.interval); t.interval = null; t.running = false;
+    btn.textContent = '▶ Resume'; btn.className = 'ctrl-btn start';
+    return;
+  }
+
+  const setTotal = t.h * 3600 + t.m * 60 + t.s;
+
+  if (setTotal > 0 && t.elapsed === 0) {
+    // ── COUNTDOWN ──
+    t.mode = 'down';
+    t.remaining = setTotal;
+    t.running = true;
+    btn.textContent = '⏸ Pause'; btn.className = 'ctrl-btn pause';
+
+    t.interval = setInterval(() => {
+      t.remaining--; t.elapsed++;
+      if (t.remaining <= 0) {
+        t.remaining = 0;
+        clearInterval(t.interval); t.interval = null; t.running = false;
+        btn.textContent = '✓ Done'; btn.className = 'ctrl-btn reset';
+        setFromSeconds(id, 0);
+        document.getElementById(`elapsed-${id}`).textContent = `✓ Done! Elapsed: ${fmt(t.elapsed)}`;
+        return;
+      }
+      setFromSeconds(id, t.remaining);
+      document.getElementById(`elapsed-${id}`).textContent = `⏱ Elapsed: ${fmt(t.elapsed)}`;
+    }, 1000);
+
+  } else {
+    // ── COUNT UP ──
+    t.mode = 'up';
+    t.running = true;
+    btn.textContent = '⏸ Pause'; btn.className = 'ctrl-btn pause';
+
+    t.interval = setInterval(() => {
+      t.elapsed++;
+      setFromSeconds(id, t.elapsed);
+      document.getElementById(`elapsed-${id}`).textContent = `⏱ Elapsed: ${fmt(t.elapsed)}`;
+    }, 1000);
+  }
+}
+
+function resetTimer(id) {
+  const t = tasks[id];
+  clearInterval(t.interval);
+  t.interval = null; t.running = false; t.elapsed = 0; t.remaining = 0;
+  t.h = 0; t.m = 0; t.s = 0;
+  ['h','m','s'].forEach(u => updateDrumPos(id, u, true));
+  const btn = document.getElementById(`startbtn-${id}`);
+  btn.textContent = '▶ Start'; btn.className = 'ctrl-btn start';
+  document.getElementById(`elapsed-${id}`).textContent = 'Set a time above, or tap Start to count up';
+}
+
+function setFromSeconds(id, total) {
+  tasks[id].h = Math.floor(total / 3600);
+  tasks[id].m = Math.floor((total % 3600) / 60);
+  tasks[id].s = total % 60;
+  ['h','m','s'].forEach(u => updateDrumPos(id, u, true));
+}
+
+function fmt(s) {
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
+  if (h) return `${h}h ${m}m ${sec}s`;
+  if (m) return `${m}m ${sec}s`;
+  return `${sec}s`;
+}
+
+function deleteTask(id) {
+  clearInterval(tasks[id]?.interval);
+  delete tasks[id];
+  document.getElementById(`task-${id}`)?.remove();
+}
+
+function markDone() {
+  Object.values(tasks).forEach(t => clearInterval(t.interval));
+  location.href = 'oyumind-dashboard-home.html';
+}
+
+/* Start with 1 default task */
+addTask();
+</script>
+</body>
+</html>
