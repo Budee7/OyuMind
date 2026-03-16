@@ -136,13 +136,19 @@ body{
 .day-name{font-size:11px;font-weight:700;color:#9b88c5}
 
 /* ASK SECTION */
-<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 21h6"/>
-            <path d="M12 3a6 6 0 0 1 4.472 10.09C15.66 14.01 15 15 15 16v1H9v-1c0-1-.66-1.99-1.472-2.91A6 6 0 0 1 12 3z"/>
-            <line x1="9.5" y1="17" x2="14.5" y2="17"/>
-          </svg>
-  
-.ask-btn:hover{transform:scale(1.07);box-shadow:0 6px 20px rgba(100,70,180,0.4)}
+.ask-section{
+  display:flex;flex-direction:column;align-items:center;
+  padding:18px 14px 4px;gap:8px;
+}
+.ask-btn{
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,#b8a8d8,#9480c0);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(100,70,180,0.28);
+  transition:transform 0.15s,box-shadow 0.15s;
+}
+.ask-btn:hover{transform:scale(1.07);box-shadow:0 6px 22px rgba(100,70,180,0.4)}
 .ask-text{font-size:17px;font-weight:800;color:var(--accent)}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -209,17 +215,15 @@ body{
     <div class="week-track" id="weekTrack"></div>
 
     <!-- Ask Section -->
-<div class="ask-section">
-        <div class="ask-circle">
-          <!-- Lightbulb SVG -->
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 21h6"/>
-            <path d="M12 3a6 6 0 0 1 4.472 10.09C15.66 14.01 15 15 15 16v1H9v-1c0-1-.66-1.99-1.472-2.91A6 6 0 0 1 12 3z"/>
-            <line x1="9.5" y1="17" x2="14.5" y2="17"/>
-          </svg>
-        </div>
-        <div class="ask-label">Ask OyuMind...</div>
-      </div>
+    <div class="ask-section">
+      <button class="ask-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+          <path d="M9 21h6M12 3a6 6 0 016 6c0 2.4-1.4 4.5-3 5.7V17H9v-2.3C7.4 13.5 6 11.4 6 9a6 6 0 016-6z"/>
+          <line x1="9" y1="17" x2="15" y2="17"/>
+        </svg>
+      </button>
+      <span class="ask-text">Ask OyuMind...</span>
+    </div>
 
   </div>
 </div>
