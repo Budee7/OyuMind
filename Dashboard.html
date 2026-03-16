@@ -178,8 +178,11 @@ body{
     <!-- Today's Tasks -->
     <div class="card">
       <div class="card-title">Today's tasks</div>
-      <div class="task-pill">Math - 30 min</div>
-      <div class="task-pill">Chemistry notes</div>
+      <div id="task-list"></div>
+      <div style="display:flex; gap:8px; margin-top:4px;">
+        <button onclick="addTask()" style="flex:1; padding:10px; background:var(--pill); border:none; border-radius:50px; font-size:20px; font-weight:700; color:var(--accent); cursor:pointer;">+</button>
+        <button onclick="location.href='Subjects.html'" style="flex:1; padding:10px; background:var(--pill); border:none; border-radius:50px; font-size:13px; font-weight:600; color:var(--accent); cursor:pointer;">Subjects</button>
+      </div>
     </div>
 
     <!-- Mood Tracker -->
@@ -301,7 +304,25 @@ function renderWeek() {
     document.getElementById('mood-' + todayMood)?.classList.add('selected');
   }
 }
+let tasks = [];
 
+function addTask() {
+  const name = prompt('Enter task name:');
+  if (!name) return;
+  tasks.push(name);
+  renderTasks();
+}
+
+function renderTasks() {
+  const list = document.getElementById('task-list');
+  list.innerHTML = '';
+  tasks.forEach((t, i) => {
+    const pill = document.createElement('div');
+    pill.className = 'task-pill';
+    pill.textContent = t;
+    list.appendChild(pill);
+  });
+}
 renderWeek();
 </script>
 </body>
