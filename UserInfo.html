@@ -1,340 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>OyuMind – User Info</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>OyuMind – User Info</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#6a35c9;
+  --accent-dark:#3b2368;
+  --pill:#e8e2f4;
+  --card:#ffffff;
+  --label:#3b2368;
+  --value:#a89cc8;
+  --gold:#e8c97a;
+  --red:#c0392b;
+}
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#d8d0ee;
+  font-family:'Nunito',sans-serif;
+  padding:32px 0;
+}
 
-    :root {
-      --bg-outer: #2d1b5e;
-      --bg-screen: #ede8f5;
-      --card-bg: #ffffff;
-      --pill-bg: #ede8f5;
-      --pill-text: #3b2368;
-      --accent: #6a35c9;
-      --accent-light: #9b6fe0;
-      --label: #3b2368;
-      --value: #a89cc8;
-      --gold: #e8c97a;
-      --shadow: 0 8px 32px rgba(80,40,140,0.13);
-    }
+/* ── Phone shell ── */
+.phone{
+  width:300px;
+  background:linear-gradient(170deg,#2d1b5e 0%,#1a0d42 100%);
+  border-radius:44px;
+  padding:18px 14px 28px;
+  box-shadow:0 0 0 1px rgba(255,255,255,0.07),0 32px 80px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.09);
+}
+.notch{width:68px;height:5px;background:rgba(255,255,255,0.12);border-radius:3px;margin:0 auto 12px}
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #e8e4f0;
-      font-family: 'Nunito', sans-serif;
-      padding: 32px 0;
-    }
+/* ── Screen ── */
+.screen{
+  background:linear-gradient(160deg,#ddd6ee 0%,#cec5e6 100%);
+  border-radius:26px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
 
-    /* ── Phone shell ── */
-    .phone {
-      width: 310px;
-      background: linear-gradient(170deg, #2d1b5e 0%, #1a0d42 100%);
-      border-radius: 44px;
-      padding: 22px 16px 22px;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.07),
-        0 32px 80px rgba(0,0,0,0.55),
-        inset 0 1px 0 rgba(255,255,255,0.09);
-      position: relative;
-    }
+/* ── Profile section (screen top) ── */
+.profile-section{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:22px 16px 16px;
+  gap:5px;
+}
+.avatar-wrap{
+  width:82px;height:82px;border-radius:50%;
+  background:linear-gradient(145deg,#e2d8f0,#cec2e4);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 3px 14px rgba(80,40,140,0.15);
+  margin-bottom:4px;
+}
+.avatar-wrap svg{width:48px;height:48px;color:#b0a0cc}
+.change-pic{
+  display:flex;align-items:center;gap:4px;
+  font-size:11px;color:#8a78b8;cursor:pointer;
+}
+.change-pic svg{width:10px;height:10px}
+.username{
+  font-size:18px;font-weight:800;
+  color:var(--accent);
+  margin-top:2px;
+}
 
-    .notch-top {
-      width: 72px; height: 5px;
-      background: rgba(255,255,255,0.12);
-      border-radius: 3px;
-      margin: 0 auto 14px;
-    }
+/* ── White card ── */
+.card{
+  background:var(--card);
+  border-radius:20px;
+  margin:0 8px 8px;
+  padding:16px 14px 18px;
+  box-shadow:0 6px 24px rgba(60,30,110,0.12);
+}
+.section-title{
+  font-size:15px;font-weight:800;
+  color:var(--label);
+  margin-bottom:10px;
+}
 
-    /* ── Screen ── */
-    .screen {
-      background: var(--bg-screen);
-      border-radius: 28px;
-      overflow: hidden;
-      padding-bottom: 0;
-    }
+/* ── Info rows (pill style like design) ── */
+.info-row{
+  background:var(--pill);
+  border-radius:50px;
+  padding:9px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:8px;
+}
+.info-label{
+  font-size:13px;font-weight:700;
+  color:var(--label);
+  flex-shrink:0;
+}
+.info-input{
+  background:transparent;
+  border:none;outline:none;
+  font-size:12px;font-weight:500;
+  color:var(--value);
+  font-family:'Nunito',sans-serif;
+  text-align:right;
+  width:60%;
+}
+.info-input::placeholder{color:var(--value)}
 
-    /* ── Top profile area ── */
-    .profile-area {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 28px 20px 20px;
-      gap: 6px;
-    }
+/* ── Settings ── */
+.settings-title{
+  font-size:15px;font-weight:800;
+  color:var(--label);
+  margin:12px 0 10px;
+}
+.setting-row{
+  background:var(--pill);
+  border-radius:50px;
+  padding:11px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:8px;
+  cursor:pointer;
+  transition:background 0.15s,transform 0.12s;
+}
+.setting-row:hover{background:#ddd3f0;transform:translateX(2px)}
+.setting-row span{font-size:13px;font-weight:600;color:var(--label)}
+.setting-row svg{width:17px;height:17px;color:var(--label)}
 
-    .avatar-wrap {
-      width: 88px; height: 88px;
-      border-radius: 50%;
-      background: linear-gradient(145deg, #ddd5f0, #c8bde8);
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 16px rgba(100,60,180,0.18);
-      margin-bottom: 4px;
-    }
-    .avatar-wrap svg {
-      width: 52px; height: 52px;
-      color: #a899cc;
-    }
+/* Delete — red */
+.setting-row.danger{background:#fde8e8}
+.setting-row.danger span{color:var(--red)}
+.setting-row.danger svg{color:var(--red)}
+.setting-row.danger:hover{background:#fbd5d5}
 
-    .change-pic {
-      display: flex; align-items: center; gap: 5px;
-      font-size: 11px; color: #9b88c5;
-      cursor: pointer;
-    }
-    .change-pic svg { width: 11px; height: 11px; }
+/* ── Sign Out ── */
+.signout-btn{
+  width:100%;background:var(--gold);
+  border:none;border-radius:50px;
+  padding:13px 0;
+  font-size:14px;font-weight:700;
+  color:#4a3510;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  margin-top:4px;
+  transition:background 0.15s,transform 0.12s;
+  font-family:'Nunito',sans-serif;
+}
+.signout-btn:hover{background:#ddb85a;transform:scale(0.98)}
+.signout-btn svg{width:16px;height:16px}
 
-    .username {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--accent);
-      letter-spacing: 0.01em;
-      margin-top: 2px;
-    }
-
-    /* ── White card ── */
-    .card {
-      background: var(--card-bg);
-      border-radius: 22px;
-      margin: 0 10px 0;
-      padding: 20px 16px 22px;
-      box-shadow: var(--shadow);
-    }
-
-    .section-title {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--label);
-      margin-bottom: 12px;
-    }
-
-    /* ── Info rows (editable input style) ── */
-    .info-row {
-      background: rgba(180,160,220,0.15);
-      border: 1.5px solid rgba(150,120,220,0.22);
-      border-radius: 14px;
-      padding: 0;
-      margin-bottom: 10px;
-      overflow: hidden;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .info-row:focus-within {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(106,53,201,0.12);
-    }
-    .info-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--label);
-      padding: 8px 16px 2px;
-      display: block;
-    }
-    .info-input {
-      width: 100%;
-      background: transparent;
-      border: none;
-      outline: none;
-      padding: 2px 16px 10px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--label);
-      font-family: 'Nunito', sans-serif;
-    }
-    .info-input::placeholder { color: var(--value); }
-
-    /* ── Settings section ── */
-    .settings-title {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--label);
-      margin: 16px 0 12px;
-    }
-
-    .setting-row {
-      background: var(--pill-bg);
-      border-radius: 50px;
-      padding: 13px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      cursor: pointer;
-      transition: background 0.18s, transform 0.14s;
-    }
-    .setting-row:hover { background: #ddd3f0; transform: translateX(2px); }
-    .setting-row span {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--label);
-    }
-    .setting-row svg {
-      width: 18px; height: 18px;
-      color: var(--label);
-    }
-
-    /* Delete row — red */
-    .setting-row.danger {
-      background: #fde8e8;
-    }
-    .setting-row.danger span { color: #c0392b; }
-    .setting-row.danger svg { color: #c0392b; }
-    .setting-row.danger:hover { background: #fbd5d5; }
-
-    /* ── Sign Out button ── */
-    .signout-btn {
-      width: 100%;
-      background: var(--gold);
-      border: none;
-      border-radius: 50px;
-      padding: 14px 0;
-      font-size: 15px;
-      font-weight: 700;
-      color: #4a3510;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 6px;
-      transition: background 0.18s, transform 0.14s;
-    }
-    .signout-btn:hover { background: #ddb85a; transform: scale(0.98); }
-    .signout-btn svg { width: 18px; height: 18px; }
-
-    /* ── Footer tagline ── */
-    .footer-tagline {
-      text-align: center;
-      padding: 16px 0 20px;
-      font-size: 11px;
-      color: #9b88c5;
-      letter-spacing: 0.08em;
-    }
-
-    /* fade-in animation */
-    @keyframes fadeUp {
-      from { opacity:0; transform:translateY(12px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    .card { animation: fadeUp 0.4s ease forwards; }
-  </style>
+/* ── Footer ── */
+.footer{
+  text-align:center;
+  padding:10px 0 14px;
+  font-size:10px;color:rgba(255,255,255,0.35);
+  letter-spacing:0.08em;
+}
+</style>
 </head>
 <body>
-
 <div class="phone">
-  <div class="notch-top"></div>
+  <div class="notch"></div>
 
   <div class="screen">
-
-    <!-- Profile area -->
-    <div class="profile-area">
+    <!-- Profile -->
+    <div class="profile-section">
       <div class="avatar-wrap">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <circle cx="12" cy="8" r="4.5"/>
-          <path d="M3 20c0-4.4 4-8 9-8s9 3.6 9 8"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4.5"/><path d="M3 20c0-4.4 4-8 9-8s9 3.6 9 8"/></svg>
       </div>
       <div class="change-pic">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         Change profile picture
       </div>
       <div class="username">Oyu Mind</div>
     </div>
 
-    <!-- Main card -->
+    <!-- Card -->
     <div class="card">
-
-      <!-- Account Info -->
       <div class="section-title">Account Info</div>
 
       <div class="info-row">
-        <label class="info-label">Name</label>
-        <input class="info-input" type="text" placeholder="Enter your name" value="Oyu Mind"/>
+        <span class="info-label">Name</span>
+        <input class="info-input" type="text" value="Oyu Mind" placeholder="Your name"/>
       </div>
       <div class="info-row">
-        <label class="info-label">Email</label>
-        <input class="info-input" type="email" placeholder="you@example.com" value="oyumind@gmail.com"/>
+        <span class="info-label">Email</span>
+        <input class="info-input" type="email" value="oyumind@gmail.com" placeholder="Email"/>
       </div>
       <div class="info-row">
-        <label class="info-label">Password</label>
-        <input class="info-input" type="password" placeholder="Enter new password" value="mypassword123" id="passwordInput" readonly style="cursor:default; color: var(--value);"/>
+        <span class="info-label">Password</span>
+        <input class="info-input" type="password" id="passwordInput" value="mypassword123" placeholder="Password" readonly style="cursor:default"/>
       </div>
 
-      <!-- Settings -->
       <div class="settings-title">Settings</div>
 
-      <div class="setting-row" id="changePwdBtn" onclick="enablePassword()" style="cursor:pointer;">
+      <div class="setting-row" id="changePwdBtn" onclick="enablePassword()">
         <span>Change Password</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="5" y="11" width="14" height="10" rx="2"/>
-          <path d="M8 11V7a4 4 0 018 0v4"/>
+          <rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/>
         </svg>
       </div>
 
       <div class="setting-row danger">
         <span>Delete Account</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="3"/>
-          <path d="M9 12h6"/>
+          <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12h6"/>
         </svg>
       </div>
 
-      <!-- Sign Out -->
       <button class="signout-btn">
         Sign Out
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
-          <polyline points="16 17 21 12 16 7"/>
-          <line x1="21" y1="12" x2="9" y2="12"/>
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
         </svg>
       </button>
+    </div>
 
-    </div><!-- end card -->
+  </div><!-- screen -->
 
-    <!-- Footer tagline -->
-    <div class="footer-tagline">focus · balance · bloom</div>
+  <!-- Footer inside phone but outside screen -->
+  <div class="footer">focus · balance · bloom</div>
+</div>
 
-  </div><!-- end screen -->
-</div><!-- end phone -->
-
-
-  <script>
-    function enablePassword() {
-      const input = document.getElementById('passwordInput');
-      const btn = document.getElementById('changePwdBtn');
-      input.removeAttribute('readonly');
-      input.style.cursor = 'text';
-      input.style.color = 'var(--label)';
-      input.value = '';
-      input.focus();
-      // Change button label to "Save Password"
-      btn.querySelector('span').textContent = 'Save Password';
-      btn.onclick = savePassword;
-    }
-
-    function savePassword() {
-      const input = document.getElementById('passwordInput');
-      const btn = document.getElementById('changePwdBtn');
-      if (input.value.length < 1) {
-        input.style.borderColor = 'red';
-        return;
-      }
-      input.setAttribute('readonly', true);
-      input.style.cursor = 'default';
-      input.style.color = 'var(--value)';
-      // mask the value visually — keep actual value but show dots
-      btn.querySelector('span').textContent = 'Change Password';
-      btn.onclick = enablePassword;
-      // brief green flash on the row
-      btn.style.background = '#d4f5e2';
-      setTimeout(() => btn.style.background = '', 1000);
-    }
-  </script>
+<script>
+function enablePassword() {
+  const input = document.getElementById('passwordInput');
+  const btn = document.getElementById('changePwdBtn');
+  input.removeAttribute('readonly');
+  input.style.cursor = 'text';
+  input.value = '';
+  input.focus();
+  btn.querySelector('span').textContent = 'Save Password';
+  btn.onclick = savePassword;
+}
+function savePassword() {
+  const input = document.getElementById('passwordInput');
+  const btn = document.getElementById('changePwdBtn');
+  if (!input.value) return;
+  input.setAttribute('readonly', true);
+  input.style.cursor = 'default';
+  btn.querySelector('span').textContent = 'Change Password';
+  btn.onclick = enablePassword;
+  btn.style.background = '#d4f5e2';
+  setTimeout(() => btn.style.background = '', 1000);
+}
+</script>
 </body>
 </html>
