@@ -47,6 +47,21 @@ body{
 }
 
 /* ── Profile section (screen top) ── */
+.back-btn{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--pill);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:background 0.15s;
+}
+.back-btn:hover{background:#ddd3f0}
+.back-btn svg{width:16px;height:16px;color:var(--accent2)}
+.brand-block{display:flex;flex-direction:column}
+.brand-row{display:flex;align-items:center;gap:8px}
+.brand-name{font-size:20px;font-weight:900;color:var(--accent)}
+.logo-img{width:36px;height:30px;object-fit:contain}
+.sub-tag{font-size:10px;color:#9b88c5;letter-spacing:0.05em;margin-top:1px}
+  
 .profile-section{
   display:flex;
   flex-direction:column;
