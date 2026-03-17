@@ -54,6 +54,20 @@ body{
   padding:22px 16px 16px;
   gap:5px;
 }
+.back-btn{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--pill);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:background 0.15s;
+}
+.back-btn:hover{background:var(--pill-hover)}
+.back-btn svg{width:14px;height:14px;color:var(--purple)}
+.header-text{display:flex;flex-direction:column;gap:1px}
+.header-row{display:flex;align-items:center;gap:8px}
+.header-name{font-size:18px;font-weight:900;color:var(--text-dark)}
+.logo-img{width:32px;height:26px;object-fit:contain}
+.header-sub{font-size:10px;color:var(--text-muted);letter-spacing:0.06em}
+  
 .avatar-wrap{
   width:82px;height:82px;border-radius:50%;
   background:linear-gradient(145deg,#e2d8f0,#cec2e4);
@@ -172,7 +186,9 @@ body{
     <!-- Profile -->
     <div class="profile-section">
       <div class="avatar-wrap">
+       <button class="back-btn">  
         <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4.5"/><path d="M3 20c0-4.4 4-8 9-8s9 3.6 9 8"/></svg>
+       </button> 
       </div>
       <div class="change-pic">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
