@@ -1,41 +1,43 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import OpenAI from "openai";
+// server.js — run with: node server.js
+// Install first: npm install express cors node-fetch
 
-dotenv.config();
+const express = require('express');
+const cors    = require('cors');
+const fetch   = require('node-fetch');
 
 const app = express();
-const port = process.env.PORT || 3000;
-
 app.use(cors());
 app.use(express.json());
+app.use(express.static('.')); // serves your HTML files
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Your Anthropic API key — get it from console.anthropic.com
+const ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE';
 
-app.get("/", (req, res) => {
-  res.send("OyuMind backend running!");
-});
-
-app.post("/chat", async (req, res) => {
-  const { message } = req.body;
-
-  if (!message) return res.status(400).json({ error: "Message is required." });
-
+app.post('/api/chat', async (req, res) => {
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: message }],
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type':         'application/json',
+        'x-api-key':            ANTHROPIC_API_KEY,
+        'anthropic-version':    '2023-06-01'
+      },
+      body: JSON.stringify({
+        model:      'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system:     req.body.system,
+        messages:   req.body.messages
+      })
     });
 
-    const answer = response.choices[0].message.content;
-    res.json({ answer });
+    const data = await response.json();
+    res.json(data);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "OpenAI request failed." });
+    res.status(500).json({ error: err.message });
   }
 });
 
-app.listen(port, () => console.log(`Backend running on http://localhost:${port}`));
+app.listen(3000, () => {
+  console.log('OyuMind server running at http://localhost:3000');
+  console.log('Open oyumind-landing.html in your browser');
+});
