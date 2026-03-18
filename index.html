@@ -116,3 +116,28 @@
 </div>
 </body>
 </html>
+<script>
+  const form = document.querySelector(".card"); // your login/chat card
+  const input = document.querySelector("input[type=text]"); // message input
+  const btn = document.querySelector(".btn"); // send button
+
+  btn.addEventListener("click", async () => {
+    const message = input.value;
+    if (!message) return;
+
+    input.value = "Loading...";
+
+    try {
+      const res = await fetch("http://localhost:3000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
+      const data = await res.json();
+      input.value = data.answer || "No response";
+    } catch (err) {
+      console.error(err);
+      input.value = "Error connecting to backend";
+    }
+  });
+</script>
