@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>OyuMind – Delete Account</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #120828;
+      font-family: 'Nunito', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* phone wrapper — 300x640 */
+    .phone {
+      width: 300px;
+      height: 640px;
+      background: linear-gradient(180deg, #1a1040 0%, #2a0f60 45%, #3d0e8a 100%);
+      border-radius: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 110px;
+      padding-bottom: 40px;
+      position: relative;
+      overflow: visible;
+      box-shadow: 0 30px 70px rgba(5,2,20,0.8);
+    }
+
+    /* tagline at absolute bottom of phone */
+    .tagline {
+      position: absolute;
+      bottom: 22px;
+      left: 0; right: 0;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      color: rgba(180,160,220,0.4);
+      font-weight: 400;
+    }
+    .tagline span { color: rgba(200,150,170,0.45); margin: 0 3px; }
+
+    /* ── Lilac card — floating on dark bg ── */
+    .lilac-card {
+      width: 260px;
+      background: linear-gradient(150deg, #cfc8e0 0%, #c0b8d5 100%);
+      border-radius: 30px;
+      padding: 28px 20px 28px;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(10,5,40,0.35);
+    }
+
+    /* ── Avatar — large grey circle, overflows top center ── */
+    .avatar {
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #d8d2e8, #c4bdd8);
+      box-shadow: 0 4px 16px rgba(60,30,100,0.18);
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    /* head */
+    .avatar::before {
+      content: '';
+      position: absolute;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #a89cc0;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    /* body / shoulders */
+    .avatar::after {
+      content: '';
+      position: absolute;
+      width: 70px; height: 48px;
+      border-radius: 50% 50% 0 0;
+      background: #a89cc0;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* ── Back button — small purple circle top-left ── */
+    .back-btn {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(130,90,200,0.25);
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #4a2898;
+      font-size: 17px;
+      font-weight: 800;
+      transition: background 0.18s;
+    }
+    .back-btn:hover { background: rgba(130,90,200,0.4); }
+
+    /* spacer so content clears the avatar */
+    .avatar-spacer { height: 36px; }
+
+    /* ── Delete inner card — dusty rose / mauve ── */
+    .delete-card {
+      background: linear-gradient(145deg, #d4b4b0, #c8a8a4);
+      border-radius: 24px;
+      padding: 26px 18px 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 20px rgba(80,30,60,0.15);
+    }
+
+    .delete-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #1e1040;
+      text-align: center;
+    }
+
+    /* white pill — confirmation message */
+    .confirm-pill {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 15px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #2a1a50;
+      text-align: center;
+      line-height: 1.55;
+    }
+
+    /* Yes / No buttons */
+    .btn-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      width: 100%;
+      padding: 0 4px;
+    }
+
+    .btn-yes {
+      /* smaller, left-aligned — matches design */
+      padding: 14px 32px;
+      background: #f2cac4;
+      border: none;
+      border-radius: 22px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #2a1a50;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.15s;
+    }
+    .btn-yes:hover { background: #e8b0a8; transform: translateY(-1px); }
+    .btn-yes:active { transform: scale(0.97); }
+
+    .btn-no {
+      /* wider, right side — matches design */
+      flex: 1;
+      padding: 14px 10px;
+      background: #d8edd0;
+      border: none;
+      border-radius: 22px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #2a1a50;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.15s;
+    }
+    .btn-no:hover { background: #c4e2b8; transform: translateY(-1px); }
+    .btn-no:active { transform: scale(0.97); }
+  </style>
+</head>
+<body>
+
+  <!-- Floating lilac card -->
+  <div class="phone">
+  <div class="lilac-card">
+
+    <!-- Avatar overflowing top -->
+    <div class="avatar"></div>
+
+    <!-- Back button -->
+    <button class="back-btn" onclick="history.back()">&#8592;</button>
+
+    <!-- Space for avatar -->
+    <div class="avatar-spacer"></div>
+
+    <!-- Delete confirmation card -->
+    <div class="delete-card">
+      <div class="delete-title">Delete Account</div>
+      <div class="confirm-pill">
+        Are you sure you want to<br/>delete your account?
+      </div>
+      <div class="btn-row">
+        <button class="btn-yes" onclick="location.href='oyumind-landing.html'">Yes</button>
+        <button class="btn-no"  onclick="history.back()">No</button>
+      </div>
+    </div>
+
+  </div><!-- /lilac-card -->
+
+  <!-- Tagline fixed at bottom -->
+  <div class="tagline">focus <span>•</span> balance <span>•</span> bloom</div>
+
+  </div><!-- /phone -->
+
+</body>
+</html>
